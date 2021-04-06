@@ -1,21 +1,16 @@
-use directories::UserDirs;
 use color_eyre::eyre::{eyre, Result, WrapErr};
 use digital_garden::write;
+use directories::UserDirs;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
 /// A CLI for the growing and curation of a digital garden
-/// 
+///
 /// Visit https://egghead.io/courses/creating-a-digital-garden-cli-with-rust-34b8 for more!
 #[derive(StructOpt, Debug)]
 #[structopt(name = "dg")]
 struct Opt {
-    #[structopt(
-        parse(from_os_str),
-        short = "p",
-        long,
-        env
-    )]
+    #[structopt(parse(from_os_str), short = "p", long, env)]
     garden_path: Option<PathBuf>,
 
     #[structopt(subcommand)]
@@ -25,7 +20,7 @@ struct Opt {
 #[derive(StructOpt, Debug)]
 enum Command {
     /// Write something in your garden
-    /// 
+    ///
     /// This command will open you $EDITOR, wait for you
     /// to write something, and then save the file to your
     /// garden
@@ -37,9 +32,7 @@ enum Command {
 }
 
 fn get_default_garden_dir() -> Result<PathBuf> {
-    let user_dirs = UserDirs::new().ok_or_else(|| {
-        eyre!("Could not find home directory")
-    })?;
+    let user_dirs = UserDirs::new().ok_or_else(|| eyre!("Could not find home directory"))?;
     Ok(user_dirs.home_dir().join(".garden"))
 }
 
@@ -50,7 +43,6 @@ fn main() -> Result<()> {
     let garden_path = match opt.garden_path {
         Some(pathbuf) => Ok(pathbuf),
         None => get_default_garden_dir().wrap_err("`garden_path` was not supplied"),
-
     }?;
     match opt.cmd {
         Command::Write { title } => write(garden_path, title),

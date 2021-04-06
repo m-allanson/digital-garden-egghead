@@ -3,7 +3,7 @@ use color_eyre::eyre::Result;
 
 #[test]
 // make sure help runs. This indicates the binary works
-fn test_help() -> Result<()>{
+fn test_help() -> Result<()> {
     let mut cmd = Command::cargo_bin("dg").unwrap();
     let assert = cmd.arg("--help").assert();
     assert.success().stderr("");
@@ -12,13 +12,12 @@ fn test_help() -> Result<()>{
 
 #[test]
 /// make sure we have a write command by running 'garden write --help'
-fn test_write_help() -> Result<()>{
+fn test_write_help() -> Result<()> {
     let mut cmd = Command::cargo_bin("dg")?;
     let assert = cmd.arg("write").arg("--help").assert();
     assert.success().stderr("");
     Ok(())
 }
-
 
 #[test]
 #[ignore]

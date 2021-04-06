@@ -2,6 +2,14 @@
 
 A CLI tool for the creation and maintenance of Digital Gardens.
 
+## Tips
+
+- `cargo run`
+- `cargo run -- write`
+- `cargo watch`
+- `cmd + .` to add highlighted item to scope (if possible) 
+- `cargo fmt`
+
 ## Commands
 
 ### Setting the garden path
@@ -17,6 +25,6 @@ garden --garden-path ~/github/my-digital-garden write
 Open a new file to write in our digital garden. Since we don't necessarily know what we want to title what we're writing, we'll eave the title as optinal and ask the user for it later if they don't provide it up-front.
 
 ```shell
-gd write
-gd write -t "Some title"
+dg write
+dg write -t "Some title"
 ```
