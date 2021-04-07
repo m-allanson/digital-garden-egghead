@@ -1,7 +1,10 @@
 use color_eyre::{Result, eyre::WrapErr};
 use edit::{edit_file, Builder};
-use std::io::{Read, Write, Seek, SeekFrom};
-use std::path::PathBuf;
+use std::{
+    fs,
+    io::{Read, Write, Seek, SeekFrom},
+    path::PathBuf
+};
 
 const TEMPLATE: &[u8;2] = b"# ";
 
@@ -20,7 +23,7 @@ pub fn write(
     file.write_all(TEMPLATE)?;
 
     // Let the user write their stuff in their editor. Then return to cli and finish up
-    edit_file(filepath)?;
+    edit_file(&filepath)?;
 
     // Read user changes back from the file to a string
     let mut contents = String::new();
@@ -41,41 +44,62 @@ pub fn write(
     let filename = match document_title {
         Some(raw_title) => confirm_filename(&raw_title),
         None => ask_for_filename(),
-    };
-    dbg!(contents, filename);
+    }?;
     
-    fn ask_for_filename() -> Result<String> {
-        rprompt::prompt_reply_stderr(
-            "\
+    let mut i: usize = 0;
+
+    loop {
+        let dest_filename = format!(
+            "{}{}",
+            filename,
+            if i == 0 {
+                "".to_string()
+            } else {
+                i.to_string()
+            }
+        );
+    
+        let mut dest = garden_path.join(dest_filename);
+        dest.set_extension("md");
+        if dest.exists() {
+            i = i + 1;
+        } else {
+            fs::rename(filepath, &dest)?;
+            break;
+        }
+    };
+    Ok(())
+}
+
+fn ask_for_filename() -> Result<String> {
+    rprompt::prompt_reply_stderr(
+        "\
 Enter filename
 >",
-        )
-        .wrap_err("Failed to get filename")
-        .map(|title| slug::slugify(title))
-    }
+    )
+    .wrap_err("Failed to get filename")
+    .map(|title| slug::slugify(title))
+}
 
-    fn confirm_filename(raw_title: &str) -> Result<String> {
-        loop {
-            let result = rprompt::prompt_reply_stderr(
-                &format!(
-                    "\
+fn confirm_filename(raw_title: &str) -> Result<String> {
+    loop {
+        let result = rprompt::prompt_reply_stderr(
+            &format!(
+                "\
 Current title: `{}`
 Do you want a different title? (y/N): ",
-                    raw_title
-                ),
-            )
-            .wrap_err("Failed to get input for y/b question")?;
+                raw_title
+            ),
+        )
+        .wrap_err("Failed to get input for y/n question")?;
 
-            match result.as_str() {
-                "y" | "Y" => break ask_for_filename(),
-                "n" | "N" => break Ok(slug::slugify(raw_title)),
-                _ => {
-                    // ask again because something went wrong
-                }
+        match result.as_str() {
+            "y" | "Y" => break ask_for_filename(),
+            "n" | "N" | "" => break Ok(slug::slugify(raw_title)),
+            _ => {
+                // ask again because something went wrong
             }
-        
         }
+    
     }
-
-    todo!()
 }
