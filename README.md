@@ -1,5 +1,9 @@
 # Digital Garden
 
+> This project is based on the [Create a Digital Garden CLI with Rust](https://egghead.io/courses/creating-a-digital-garden-cli-with-rust-34b8) course. 
+>
+>I highly recommend it for anyone learning Rust 🦀.
+
 A CLI tool for the creation and maintenance of Digital Gardens.
 
 ## Tips
@@ -28,3 +32,7 @@ Open a new file to write in our digital garden. Since we don't necessarily know 
 dg write
 dg write -t "Some title"
 ```
+
+## Learn more
+
+Tuck into Chris Biscardi's [Create a Digital Garden CLI with Rust](https://egghead.io/courses/creating-a-digital-garden-cli-with-rust-34b8) for a detailed explanation of this code.
