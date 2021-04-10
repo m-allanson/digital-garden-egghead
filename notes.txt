@@ -1,0 +1,109 @@
+## Notes I took while working through this course. Mostly a reference for myself.
+
+Watched up to color-eyre
+
+Started getting confused (I'm a complete rust newbie)
+
+Installed rust
+
+Read first 6 chapters of the rust book (up to enums)
+
+Worked through episodes up to episode 5 (color eyre)
+
+Episode 6 - reading docs on structopt. Writing out lesson code but not understanding this bit yet. I should probably look up the #[derive()] syntax  but I'm just going to roll with this for a bit and see what happens.
+
+Installed the Rust extension for VS Code 
+
+Worked through to end of Episode 6
+
+A quick read about traits, and / or derived traits. Traits are kinda sorta like interfaces, derive is a way to add trait implementations to data structures. This description is probably inaccurate, but it's enough for me to keep going for now.
+
+Episode 7. nice.
+
+Watch through the next few episodes without writing any code.
+
+Stop for today
+
+Episode 8. I got a bit confused writing out the code for integration.rs. Originally I was writing the type annotations into my code (":Command" and "name:" on line 7). This was giving me errors. But these types are just helpful annotations printed by Chris's editor, not part of the written code.
+
+Episode 9 Matching structopt commands. Cool cool cool.
+
+Episode 10 Creating a library crate. The "To drive the point home" section feels like it would benefit from a diagram of some kind. I think I get it, but it took a few re-listens.
+
+Episode 11 Adding support for global flags. Cmd + . shortcut is nice. Remind myself about the ? operator again: Unpack Result if OK, otherwise return error.
+
+I got very confused here. My error messages were slightly different to the ones being shown. It turns out I'd done `cargo add directory` instead of `cargo add directories`.  At 1:13 the video cuts before the end of the word `directories` is typed, and on the audio it _sounds_ like Chris says `cargo add directory`.
+
+At 04:45 it doesn't show what command is run. I cancelled the `watch` and ran `cargo run -- write`.
+
+Watch the next few episodes without writing any code.
+
+That's the all for today!
+
+(a week later)
+
+Episode 12 Passing control to the user's favourite editor. 
+The code at 1:53 doesn't run the examples between 1:54 and 2:35. You have to skip to 2:35 to see the correct `use` for `eyre::WrapErr`.
+
+I needed to manually create my `~/.garden` directory to prevent this error:
+
+```
+Error:
+   0: Failed to create wip file
+   1: No such file or directory (os error 2) at path "/Users/mike/.garden/.tmpfU9qv.md"
+
+Location:
+   src/write.rs:16
+```
+
+This could be good TODO for me to dig into: create target dir if not exists. But for now I'm just gonna make the dir and carry on.
+
+
+Episode 13 Using the Option type in Rust to pick from.. :+1:
+
+Episode 14 Prompting the user
+
+Sidenote: I noticed the matching bracket colours in all these videos. This extension is great: https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer-2
+
+How do I get rust analyzer to show inline types in VSCode? I'm using the rust-lang.rust extension but it doesn't seem to have an option to display the inline types. Investigate this later.
+
+User prompts are working!
+
+That's all for today
+
+Episode 15 Checking for file existence
+
+`garden_tmpfile` threw me a bit. Later it's updated to `filepath`.
+
+Episode 16 Using owo_colors Extension Traits
+
+Colours! Nice.
+
+Done for today.
+
+Alright, final stretch! The course has been released now, so I won't be the second person to complete it :)
+
+Episode 17 integration tests
+
+Hmm what was the command to run the tests? Oh it's `cargo test` I could have guessed that.
+
+I really appreciate how the editing cuts the "watch a person type the code in" parts. I think there were one or two spots earlier where I got confused because I missed an import or something. But overall I like this style. 
+
+Don't forget to `cargo add` `predicates` and `assert_fs`.
+
+All done for this episode.
+
+Episode 18 Abstracting test utils
+
+Weird audio editing at 46 seconds? missing the word "testing"?
+
+The end! 
+
+I thoroughly enjoyed this. It felt well-structured and concisely presented, and also built up to a useful project.
+
+(personal bugbear: courses that proclaim the quantity of content, I want the _minimum_ amount of content needed to learn X). 
+
+Having recently set up a Toast site, I can also see myself using this when writing. 
+
+I just noticed the source repo has more features. Worth digging into https://github.com/rust-adventure/digital-garden
+
