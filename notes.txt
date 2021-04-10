@@ -87,7 +87,7 @@ Episode 17 integration tests
 
 Hmm what was the command to run the tests? Oh it's `cargo test` I could have guessed that.
 
-I really appreciate how the editing cuts the "watch a person type the code in" parts. I think there were one or two spots earlier where I got confused because I missed an import or something. But overall I like this style. 
+I really appreciate how the editing cuts out the "watch a person type the code in" parts. I think there were one or two spots earlier where I got confused because I missed an import or something. But overall I like this style. 
 
 Don't forget to `cargo add` `predicates` and `assert_fs`.
 
