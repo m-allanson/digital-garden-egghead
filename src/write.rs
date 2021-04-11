@@ -1,17 +1,14 @@
-use color_eyre::{Result, owo_colors::OwoColorize, eyre::WrapErr};
+use color_eyre::{eyre::WrapErr, owo_colors::OwoColorize, Result};
 use edit::{edit_file, Builder};
 use std::{
     fs,
-    io::{Read, Write, Seek, SeekFrom},
-    path::PathBuf
+    io::{Read, Seek, SeekFrom, Write},
+    path::PathBuf,
 };
 
-const TEMPLATE: &[u8;2] = b"# ";
+const TEMPLATE: &[u8; 2] = b"# ";
 
-pub fn write(
-    garden_path: PathBuf, 
-    title: Option<String>
-) -> Result<()> {
+pub fn write(garden_path: PathBuf, title: Option<String>) -> Result<()> {
     let (mut file, filepath) = Builder::new()
         .suffix(".md")
         .rand_bytes(5)
@@ -19,7 +16,7 @@ pub fn write(
         .wrap_err("Failed to create wip file")?
         .keep()
         .wrap_err("Failed to keep tempfile")?;
-    
+
     file.write_all(TEMPLATE)?;
 
     // Let the user write their stuff in their editor. Then return to cli and finish up
@@ -34,18 +31,14 @@ pub fn write(
         contents
             .lines()
             .find(|v| v.starts_with("# "))
-            .map(|maybe_line| {
-                maybe_line  
-                    .trim_start_matches("# ")
-                    .to_string()
-            })
+            .map(|maybe_line| maybe_line.trim_start_matches("# ").to_string())
     });
 
     let filename = match document_title {
         Some(raw_title) => confirm_filename(&raw_title),
         None => ask_for_filename(),
     }?;
-    
+
     let mut i: usize = 0;
 
     loop {
@@ -58,7 +51,7 @@ pub fn write(
                 i.to_string()
             }
         );
-    
+
         let mut dest = garden_path.join(dest_filename);
         dest.set_extension("md");
         if dest.exists() {
@@ -67,7 +60,7 @@ pub fn write(
             fs::rename(filepath, &dest)?;
             break;
         }
-    };
+    }
     Ok(())
 }
 
@@ -86,15 +79,13 @@ Enter filename
 
 fn confirm_filename(raw_title: &str) -> Result<String> {
     loop {
-        let result = rprompt::prompt_reply_stderr(
-            &format!(
-                "\
+        let result = rprompt::prompt_reply_stderr(&format!(
+            "\
 {} {}
 Do you want a different title? (y/N): ",
-                "Current title:".green().bold(),
-                raw_title
-            ),
-        )
+            "Current title:".green().bold(),
+            raw_title
+        ))
         .wrap_err("Failed to get input for y/n question")?;
 
         match result.as_str() {
@@ -104,6 +95,5 @@ Do you want a different title? (y/N): ",
                 // ask again because something went wrong
             }
         }
-    
     }
 }

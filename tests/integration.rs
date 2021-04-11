@@ -1,6 +1,6 @@
 use assert_cmd::Command;
-use color_eyre::eyre::Result;
 use assert_fs::prelude::*;
+use color_eyre::eyre::Result;
 use predicates::prelude::*;
 
 fn setup_command() -> (Command, assert_fs::TempDir) {
@@ -13,14 +13,12 @@ fn setup_command() -> (Command, assert_fs::TempDir) {
         .join("fake-editor.sh");
 
     if !fake_editor_path.exists() {
-        panic!(
-            "fake editor shell script could not be found"
-        )
+        panic!("fake editor shell script could not be found")
     }
 
     cmd.env("EDITOR", fake_editor_path.into_os_string())
         .env("GARDEN_PATH", temp_dir.path());
-    
+
     (cmd, temp_dir)
 }
 
@@ -64,10 +62,7 @@ fn test_write_with_title() {
 /// execute the write command, saving a file out
 fn test_write_with_written_title() {
     let (mut cmd, temp_dir) = setup_command();
-    let assert = cmd
-        .arg("write")
-        .write_stdin("N\n".as_bytes())
-        .assert();
+    let assert = cmd.arg("write").write_stdin("N\n".as_bytes()).assert();
 
     assert.success();
 
